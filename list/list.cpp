@@ -22,7 +22,7 @@ bool ListEmpty(DNode *head) {
 
 // Определение числа элементов в списке
 int ListNodeNumber(DNode *head) {
-	int counter = 0; //Описание и инициализация счетчика узлов
+	int counter = 0; // Описание и инициализация счетчика узлов
 
 	// Проверка указателя на NULL
 	while (head) {
@@ -54,21 +54,21 @@ void DListРush(DNode **head, int data) {
 }
 
 // Удаление первого элемента с возвращением его значения
-int DListРop(DNode *head) {
+int DListРop(DNode **head) {
 
-	if (head == NULL) return -1;
-	int val = head->value; //Извлечение содержимого из первого узла
+	if ((*head) == NULL) return -1;
+	int val = (*head)->value; // Извлечение содержимого из первого узла
 
-	if (head->next) {
-		head = head->next; // Обновление указателя *head
-		free(head->pnext); // Удаление первого узла
-		head->pnext = NULL; // Установка обратного указателя первого узла
+	if ((*head)->next) {
+		(*head) = (*head)->next; // Обновление указателя *head
+		free((*head)->pnext); // Удаление первого узла
+		(*head)->pnext = NULL; // Установка обратного указателя первого узла
 	}
 	else {
-		free(head);
+		free((*head));
 	}
 
-	return val; //Возвращение содержимого удаленного первого узла
+	return val; // Возвращение содержимого удаленного первого узла
 }
 
 // Поиск указателя на узел с номером n
@@ -88,7 +88,7 @@ DNode * ListgetNth(DNode *head, int n) {
 // Поиск указателя на последний элемент списка
 DNode * ListgetLast(DNode *head) {
 
-	if (!head) return NULL; //Проверка пустоты списка и возврат NULL
+	if (!head) return NULL; // Проверка пустоты списка и возврат NULL
 
 	// Перемещение по указателям до значения NULL
 	while (head->next) {
@@ -102,10 +102,10 @@ DNode * ListgetLast(DNode *head) {
 void DListРushBack(DNode **head, int data) {
 
 	DNode *last = ListgetLast(*head); //Определение указателя на существующий последний узел
-	DNode *tmp = new DNode;// Описание и выделение памяти под новый узел tmp
+	DNode *tmp = new DNode; // Описание и выделение памяти под новый узел tmp
 
-	tmp->next = NULL;//Запись пустого указателя в tmp
-	tmp->value = data;//Запись значения в tmp
+	tmp->next = NULL; // Запись пустого указателя в tmp
+	tmp->value = data; // Запись значения в tmp
 
 	if (last != NULL) {
 		last->next = tmp; // Запись указателя на tmp в узел с указателем *last
@@ -129,14 +129,17 @@ bool DListРopBack(DNode *head) {
 	// Засылка в pr_last указателя на предпоследний элемент
 	DNode *pr_last = ListgetNth(head, nm1);
 
+	// В списке был один элемент, весь список очищается
 	if (pr_last->next == NULL) {
 		free(head);
 		head = NULL;
-	} // В списке был один элемент, весь список очищается
+	}
+	// В списке было более одного элемента
 	else {
 		free(pr_last->next);
 		pr_last->next = NULL;
-	} // В списке было более одного элемента
+	}
+
 	return true;
 }
 
@@ -154,12 +157,13 @@ void DListРushNth(DNode *head, int n, int data) {
 		DListРushBack(&head, data);
 	else {
 		// Элементов больше, чем n - добавление между ними
+
 		DNode *tmp = new DNode; // Объявление и выделение памяти под новый узел tmp
 		DNode *pr = ListgetNth(head, n); // Поиск указателя на элемент с номером n 
 
-		pr->next->pnext = tmp;
+		pr->next->pnext = tmp; // Установка указателя с элемента (n + 1)->pnext на tmp
 		tmp->next = pr->next; // Перенос указателя с элемента n на tmp
-		tmp->pnext = pr;
+		tmp->pnext = pr; // Установка указателя с tmp->pnext на pr
 		tmp->value = data; // Присваивание значения
 		pr->next = tmp; // Установка указателя с элемента n на tmp
 	};
@@ -186,8 +190,8 @@ int  DListDeleteNth(DNode *head, int n) {
 			pr->next = NULL; // Узел  n был последним
 		else {
 			// Узел  n – не был последним
-			pr->next = tmp;//Смена прямого указателя на предыдущем узле npr
-			tmp->pnext = pr;//Смена обратного указателя на последующем узле nnx
+			pr->next = tmp; // Смена прямого указателя на предыдущем узле npr
+			tmp->pnext = pr; // Смена обратного указателя на последующем узле nnx
 		}
 	}
 }
@@ -196,23 +200,25 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 
-	int menuChoiceNumber = 0; // Выбор пункта меню
-	int data = 0; // Значение узла
-	int n = 0; // Номер узла
-	int result_int;
-	DNode * result_link;
+	int data; // Значение узла
+	int n; // Номер узла
+	int result_int; // Для результата работы функции
+	DNode * result_link; // Указатель результата функции
 
 	DNode *head = new DNode;
 
 	ListContructor(&head);
 
+	// TODO: Вызов функций для работы с двунаправленным списком
+
+	// Отображение списка
 	while (head) {
 
-		cout << head << endl;
-		cout << head->value << endl;
-		cout << head->next << endl;
-		cout << head->pnext << endl;
-		cout << "-------" << endl;
+		cout << "Адрес: " << head << endl;
+		cout << "Значение: " << head->value << endl;
+		cout << "Следующий узел: " << head->next << endl;
+		cout << "Предыдущий узел: " << head->pnext << endl;
+		cout << "----------------" << endl;
 
 		head = head->next;
 	}
