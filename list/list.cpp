@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-
+	
 	int data; // Значение узла
 	int n; // Номер узла
 	int result_int = 0; // Результат работы функции

@@ -45,8 +45,8 @@ DList::~DList() {
 	while (head)
 	{
 		DNode *temp = head; // Создаем временный узел
-		head = head->next;	// Присваиваем ему указатель на следующий
-		delete temp;	// Удаляем его
+		head = head->next; // Присваиваем ему указатель на следующий
+		delete temp; // Удаляем его
 	}
 
 	head = NULL;
@@ -57,7 +57,7 @@ int DList::ListNodeNumber() {
 
 	int counter = 0; // Описание и инициализация счетчика узлов
 
-					 // Проверка указателя на NULL
+	// Проверка указателя на NULL
 	while (head) {
 		head = head->next;
 		counter++;
@@ -72,8 +72,8 @@ void DList::DListРush(int data) {
 	DNode *tmp = new DNode(); // Создание нового элемента типа DNode
 
 	if (head == NULL) {
-		tmp->value = data;
-		head = tmp;
+		tmp->value = data; // Присваиваем новому элементу значение data
+		head = tmp; // Меняем указатель узла head на tmp
 	}
 	else {
 		tmp->next = head; // Вставка прежнего указателя на список в узел tmp
@@ -88,6 +88,7 @@ int DList::DListРop() {
 	// Удаление первого элемента с возвращением его значения
 
 	if (head == NULL) return -1;
+
 	int val = head->value; // Извлечение содержимого из первого узла
 
 	if (head->next) {
@@ -96,7 +97,7 @@ int DList::DListРop() {
 		head->pnext = NULL; // Установка обратного указателя первого узла
 	}
 	else {
-		free(head);
+		free(head); // Удаляем head
 	}
 
 	return val; // Возвращение содержимого удаленного первого узла
@@ -107,7 +108,7 @@ DNode * DList::ListgetNth(int n) {
 
 	int counter = 0; // Описание и инициализация счетчика узлов
 
-					 // Проверка номера узла и его пустоты
+	// Проверка номера узла и его пустоты
 	while (counter < n && head) {
 		head = head->next;
 		counter++;
@@ -121,7 +122,7 @@ DNode * DList::ListgetLast() {
 
 	if (!head) return NULL; // Проверка пустоты списка и возврат NULL
 
-							// Перемещение по указателям до значения NULL
+	// Перемещение по указателям до значения NULL
 	while (head->next) {
 		head = head->next;
 	}
@@ -135,7 +136,6 @@ void DList::DListРushBack(int data) {
 	DNode *last = ListgetLast(); //Определение указателя на существующий последний узел
 	DNode *tmp = new DNode; // Описание и выделение памяти под новый узел tmp
 
-	tmp->next = NULL; // Запись пустого указателя в tmp
 	tmp->value = data; // Запись значения в tmp
 
 	if (last != NULL) {
@@ -176,8 +176,8 @@ bool DList::DListРopBack() {
 
 void DList::DListРushNth(int n, int data) {
 	/*
-	Вставка нового элемента с содержанием data после элемента с номером n
-	или в конец списка, если элементов меньше, чем n
+		Вставка нового элемента с содержанием data после элемента с номером n
+		или в конец списка, если элементов меньше, чем n
 	*/
 
 	// Определение числа элементов
@@ -213,7 +213,7 @@ int DList::DListDeleteNth(int n) {
 
 		// Объявление и поиск указателя на элемент с номером n-1
 		DNode *pr = ListgetNth(n - 1);
-
+		
 		// Объявление и расчет указателя на узел, следующий за узлом n
 		DNode *tmp = pr->next->next;
 
@@ -241,31 +241,4 @@ void DList::Print() {
 
 		head = head->next;
 	}
-}
-
-DNode * DList::getNext() {
-	// Получение ссылки на следующий узел
-	while (head->next) {
-		head = head->next;
-	}
-
-	return head->next;
-}
-
-DNode * DList::getPNext() {
-	// Получение ссылки на предыдущий узел
-	while (head->next) {
-		head = head->next;
-	}
-
-	return this->head->pnext;
-}
-
-int DList::getKey() {
-	// Получение ключа узла
-	while (head->next) {
-		head = head->next;
-	}
-
-	return this->head->value;
 }
