@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "DList.h"
 #include <iostream>
 
@@ -42,17 +42,14 @@ DList::DList() {
 
 DList::~DList() {
 
-	// Если он вообще существует
-	if (!head) return;
-
-	// В цикле пройдем последовательно по элементам
-	for (last = head->next; last; last = last->next) {
-		// Освобождая их соседей сзади т.е убирая предыдущие
-		delete last->pnext;
-		head = last;
+	while (head)
+	{
+		DNode *temp = head; // Создаем временный узел
+		head = head->next;	// Присваиваем ему указатель на следующий
+		delete temp;	// Удаляем его
 	}
 
-	delete head;
+	head = NULL;
 }
 
 int DList::ListNodeNumber() {

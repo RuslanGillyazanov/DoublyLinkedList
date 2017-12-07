@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 typedef struct DNode
 {
@@ -17,7 +17,7 @@ typedef struct DNode
 class DList
 {
 	// Голова, хвост
-	DNode *head, *last = new DNode();
+	DNode *head = new DNode();
 
 public:
 
