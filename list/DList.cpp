@@ -57,10 +57,12 @@ int DList::ListNodeNumber() {
 
 	int counter = 0; // Описание и инициализация счетчика узлов
 
+	DNode *headCurrent = head;
+
 	// Проверка указателя на NULL
-	while (head) {
-		head = head->next;
+	while (headCurrent) {
 		counter++;
+		headCurrent = headCurrent->next;
 	}
 
 	return counter;
@@ -69,35 +71,39 @@ int DList::ListNodeNumber() {
 void DList::DListРush(int data) {
 	// Добавление элемента с содержимым data в начало списка
 
+	DNode *headCurrent = head;
+
 	DNode *tmp = new DNode(); // Создание нового элемента типа DNode
 
-	if (head == NULL) {
+	if (headCurrent == NULL) {
 		tmp->value = data; // Присваиваем новому элементу значение data
-		head = tmp; // Меняем указатель узла head на tmp
+		headCurrent = tmp; // Меняем указатель узла headCurrent на tmp
 	}
 	else {
-		tmp->next = head; // Вставка прежнего указателя на список в узел tmp
+		tmp->next = headCurrent; // Вставка прежнего указателя на список в узел tmp
 		tmp->value = data; // Присвоение узлу tmp значения data
 
-		head->pnext = tmp; // Вставка обратного указателя в узел, стоящий за tmp
-		head = tmp; // Присвоение нового значения указателю head (на tmp)
+		headCurrent->pnext = tmp; // Вставка обратного указателя в узел, стоящий за tmp
+		head = tmp; // Устанавливаем узел tmp на начало списка
+		headCurrent = head; // Присвоение нового значения указателю headCurrent (на head)
 	}
 }
 
 int DList::DListРop() {
 	// Удаление первого элемента с возвращением его значения
+	DNode **headCurrent = &head;
 
-	if (head == NULL) return -1;
+	if (headCurrent == NULL) return -1;
 
-	int val = head->value; // Извлечение содержимого из первого узла
+	int val = (*headCurrent)->value; // Извлечение содержимого из первого узла
 
-	if (head->next) {
-		head = head->next; // Обновление указателя *head
-		free(head->pnext); // Удаление первого узла
-		head->pnext = NULL; // Установка обратного указателя первого узла
+	if ((*headCurrent)->next) {
+		*headCurrent = (*headCurrent)->next; // Обновление указателя *headCurrent
+		free((*headCurrent)->pnext); // Удаление первого узла
+		(*headCurrent)->pnext = NULL; // Установка обратного указателя первого узла
 	}
 	else {
-		free(head); // Удаляем head
+		free(*headCurrent); // Удаляем headCurrent
 	}
 
 	return val; // Возвращение содержимого удаленного первого узла
@@ -105,29 +111,31 @@ int DList::DListРop() {
 
 DNode * DList::ListgetNth(int n) {
 	// Поиск указателя на узел с номером n
+	DNode *headCurrent = head;
 
 	int counter = 0; // Описание и инициализация счетчика узлов
 
 	// Проверка номера узла и его пустоты
-	while (counter < n && head) {
-		head = head->next;
+	while (counter < n && headCurrent) {
+		headCurrent = headCurrent->next;
 		counter++;
 	}
 
-	return head;
+	return headCurrent;
 }
 
 DNode * DList::ListgetLast() {
 	// Поиск указателя на последний элемент списка
+	DNode *headCurrent = head;
 
-	if (!head) return NULL; // Проверка пустоты списка и возврат NULL
+	if (!headCurrent) return NULL; // Проверка пустоты списка и возврат NULL
 
 	// Перемещение по указателям до значения NULL
-	while (head->next) {
-		head = head->next;
+	while (headCurrent->next) {
+		headCurrent = headCurrent->next;
 	}
 
-	return head;
+	return headCurrent;
 }
 
 void DList::DListРushBack(int data) {
@@ -144,15 +152,15 @@ void DList::DListРushBack(int data) {
 	}
 	else {
 		head = tmp;
-		head->pnext = NULL;
 	}
 }
 
 bool DList::DListРopBack() {
 	// Удаление последнего элемента из списка 
+	DNode *headCurrent = head;
 
 	// Проверка пустоты списка и возврат false
-	if (!head) return false;
+	if (!headCurrent) return false;
 
 	// Номер последнего элемента
 	int nm1 = ListNodeNumber() - 2;
@@ -162,8 +170,8 @@ bool DList::DListРopBack() {
 
 	if (pr_last->next == NULL) {
 		// В списке был один элемент, весь список очищается
-		free(head);
-		head = NULL;
+		free(headCurrent);
+		headCurrent = NULL;
 	}
 	else {
 		// В списке было более одного элемента
@@ -223,22 +231,24 @@ int DList::DListDeleteNth(int n) {
 			pr->next = NULL; // Узел n был последним
 		else {
 			// Узел n – не был последним
-			pr->next = tmp; // Смена прямого указателя на предыдущем узле npr
-			tmp->pnext = pr; // Смена обратного указателя на последующем узле nnx
+			pr->next = tmp; // Смена прямого указателя на предыдущем узле pr
+			tmp->pnext = pr; // Смена обратного указателя на последующем узле tmp
 		}
 	}
 }
 
 void DList::Print() {
-	// Вывод списка
-	while (head) {
+	DNode *headCurrent = head;
 
-		std::cout << "Адрес: " << head << std::endl;
-		std::cout << "Значение: " << head->value << std::endl;
-		std::cout << "Следующий узел: " << head->next << std::endl;
-		std::cout << "Предыдущий узел: " << head->pnext << std::endl;
+	// Вывод списка
+	while (headCurrent) {
+
+		std::cout << "Адрес: " << headCurrent << std::endl;
+		std::cout << "Значение: " << headCurrent->value << std::endl;
+		std::cout << "Следующий узел: " << headCurrent->next << std::endl;
+		std::cout << "Предыдущий узел: " << headCurrent->pnext << std::endl;
 		std::cout << "----------------" << std::endl;
 
-		head = head->next;
+		headCurrent = headCurrent->next;
 	}
 }
