@@ -52,6 +52,15 @@ DList::~DList() {
 	head = NULL;
 }
 
+bool DList::ListEmpty() {
+	// Проверка списка на пустоту
+	DNode *headCurrent = head;
+
+	if (!headCurrent) return true;
+
+	return false;
+}
+
 int DList::ListNodeNumber() {
 	// Определение числа элементов в списке
 
@@ -93,9 +102,9 @@ int DList::DListРop() {
 	// Удаление первого элемента с возвращением его значения
 	DNode **headCurrent = &head;
 
-	if (headCurrent == NULL) return -1;
+	if (!headCurrent) return -1; // Проверка на пустоту
 
-	int val = (*headCurrent)->value; // Извлечение содержимого из первого узла
+	int value = (*headCurrent)->value; // Извлечение содержимого из первого узла
 
 	if ((*headCurrent)->next) {
 		*headCurrent = (*headCurrent)->next; // Обновление указателя *headCurrent
@@ -106,7 +115,7 @@ int DList::DListРop() {
 		free(*headCurrent); // Удаляем headCurrent
 	}
 
-	return val; // Возвращение содержимого удаленного первого узла
+	return value; // Возвращение содержимого удаленного первого узла
 }
 
 DNode * DList::ListgetNth(int n) {
@@ -142,7 +151,7 @@ void DList::DListРushBack(int data) {
 	// Добавление нового элемента с содержанием data в конец списка
 
 	DNode *last = ListgetLast(); //Определение указателя на существующий последний узел
-	DNode *tmp = new DNode; // Описание и выделение памяти под новый узел tmp
+	DNode *tmp = new DNode(); // Описание и выделение памяти под новый узел tmp
 
 	tmp->value = data; // Запись значения в tmp
 
@@ -151,7 +160,7 @@ void DList::DListРushBack(int data) {
 		tmp->pnext = last; // Запись указателя на last в узел с указателем tmp->pnext
 	}
 	else {
-		head = tmp;
+		head = tmp; // Если элемент один записываем tmp на первое место
 	}
 }
 
@@ -238,9 +247,9 @@ int DList::DListDeleteNth(int n) {
 }
 
 void DList::Print() {
+	// Вывод списка
 	DNode *headCurrent = head;
 
-	// Вывод списка
 	while (headCurrent) {
 
 		std::cout << "Адрес: " << headCurrent << std::endl;

@@ -10,11 +10,15 @@ int main()
 
 	DList q1;
 
+	cout << "Проверка на пустоту: " << q1.ListEmpty() << endl;
+
 	// Добавление новых узлов в конец списка
 	q1.DListРushBack(10);
 	q1.DListРushBack(11);
 	q1.DListРushBack(12);
 	q1.DListРushBack(13);
+
+	cout << "Проверка на пустоту: " << q1.ListEmpty() << endl;
 
 	// Удаление последнего узла из списка
 	q1.DListРopBack();
