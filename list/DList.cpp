@@ -3,6 +3,8 @@
 #include <iostream>
 
 DList::DList(DNode *next_, DNode *pnext_, int value_) {
+	// Конструктор с тремя параметрами (DNode)
+
 	DNode *temp = new DNode;
 
 	temp->next = next_;
@@ -13,6 +15,8 @@ DList::DList(DNode *next_, DNode *pnext_, int value_) {
 }
 
 DList::DList(DNode *next_, DNode *pnext_) {
+	// Конструктор с двумя параметрами (DNode)
+
 	DNode *temp = new DNode;
 
 	temp->next = next_;
@@ -23,6 +27,8 @@ DList::DList(DNode *next_, DNode *pnext_) {
 }
 
 DList::DList(DNode *next_) {
+	// Конструктор с одним параметром (DNode)
+
 	DNode *temp = new DNode;
 
 	temp->next = next_;
@@ -33,6 +39,8 @@ DList::DList(DNode *next_) {
 }
 
 DList::DList() {
+	// Конструктор по-умолчанию (DNode)
+
 	DNode *temp;
 
 	temp = NULL;
@@ -41,12 +49,13 @@ DList::DList() {
 }
 
 DList::~DList() {
+	// Деструктор
 
 	while (head)
 	{
 		DNode *temp = head; // Создаем временный узел
 		head = head->next; // Присваиваем ему указатель на следующий
-		delete temp; // Удаляем его
+		free(temp); // Удаляем его
 	}
 
 	head = NULL;
